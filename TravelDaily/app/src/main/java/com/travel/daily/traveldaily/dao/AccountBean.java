@@ -13,6 +13,8 @@ public class AccountBean {
     private String imgUrl;
     private String name;
     private String detail;
+    private String password;
+    private Boolean gender;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -24,11 +26,13 @@ public class AccountBean {
         this.id = id;
     }
 
-    public AccountBean(Long id, String imgUrl, String name, String detail) {
+    public AccountBean(Long id, String imgUrl, String name, String detail, String password, Boolean gender) {
         this.id = id;
         this.imgUrl = imgUrl;
         this.name = name;
         this.detail = detail;
+        this.password = password;
+        this.gender = gender;
     }
 
     public Long getId() {
@@ -61,6 +65,22 @@ public class AccountBean {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getGender() {
+        return gender;
+    }
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
     }
 
     // KEEP METHODS - put your custom methods here

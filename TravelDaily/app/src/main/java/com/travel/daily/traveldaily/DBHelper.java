@@ -2,11 +2,13 @@ package com.travel.daily.traveldaily;
 
 import android.content.Context;
 
+import com.travel.daily.traveldaily.dao.AccountBeanDao;
 import com.travel.daily.traveldaily.dao.BillBeanDao;
 import com.travel.daily.traveldaily.dao.BillListDao;
 import com.travel.daily.traveldaily.dao.DaoMaster;
 import com.travel.daily.traveldaily.dao.DaoSession;
 import com.travel.daily.traveldaily.dao.DelicacyBeanDao;
+import com.travel.daily.traveldaily.dao.DetailImageDao;
 import com.travel.daily.traveldaily.dao.HotelBeanDao;
 import com.travel.daily.traveldaily.dao.ImageBeanDao;
 import com.travel.daily.traveldaily.dao.SceneryBeanDao;
@@ -60,5 +62,13 @@ public class DBHelper {
 
     public ImageBeanDao getImageDao() {
         return daoSession.getImageBeanDao();
+    }
+
+    public DetailImageDao getDetailImageDao() {
+        return daoSession.getDetailImageDao();
+    }
+
+    public AccountBeanDao getAccountDao() {
+        return daoSession.getAccountBeanDao();
     }
 }

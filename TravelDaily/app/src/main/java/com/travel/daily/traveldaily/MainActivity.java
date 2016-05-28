@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.travel.daily.traveldaily.bill.BillListFragment;
+import com.travel.daily.traveldaily.dao.AccountBean;
 import com.travel.daily.traveldaily.delicacy.DelicacyListFragment;
 import com.travel.daily.traveldaily.hotel.HotelListFragment;
 import com.travel.daily.traveldaily.scenery.SceneryListFragment;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity
 
     TabLayout mTabLayout;
     ViewPager mViewPager;
+    AccountBean account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         setUpViewPager();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        account = AccountManager.getInstance(this).getBean();
+        updateAccount();
+    }
+
+    private void updateAccount() {
+
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.travel.daily.traveldaily.ImageUtils;
+import com.travel.daily.traveldaily.ToolUtils;
 import com.travel.daily.traveldaily.R;
 import com.travel.daily.traveldaily.bill.BillCreateActivity;
 import com.travel.daily.traveldaily.dao.SceneryBean;
@@ -46,11 +46,15 @@ public class SceneryView extends IView<SceneryBean> {
     @Override
     public void setData(SceneryBean data) {
         this.data = data;
-        holder.img.setImageBitmap(ImageUtils.getBitmapFromUrl(getContext(), data.getImgUrl()));
+        holder.img.setImageBitmap(ToolUtils.getBitmapFromUrl(getContext(), data.getImgUrl()));
         holder.title.setText(data.getTitle());
         holder.detail.setText(data.getDetail());
         holder.action.setOnClickListener(this);
         holder.container.setOnClickListener(this);
+    }
+
+    public SceneryBean getData() {
+        return data;
     }
 
     @Override

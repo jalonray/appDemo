@@ -27,6 +27,8 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
         public final static Property ImgUrl = new Property(1, String.class, "imgUrl", false, "IMG_URL");
         public final static Property Name = new Property(2, String.class, "name", false, "NAME");
         public final static Property Detail = new Property(3, String.class, "detail", false, "DETAIL");
+        public final static Property Password = new Property(4, String.class, "password", false, "PASSWORD");
+        public final static Property Gender = new Property(5, Boolean.class, "gender", false, "GENDER");
     };
 
 
@@ -45,7 +47,9 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
                 "\"ID\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"IMG_URL\" TEXT," + // 1: imgUrl
                 "\"NAME\" TEXT," + // 2: name
-                "\"DETAIL\" TEXT);"); // 3: detail
+                "\"DETAIL\" TEXT," + // 3: detail
+                "\"PASSWORD\" TEXT," + // 4: password
+                "\"GENDER\" INTEGER);"); // 5: gender
     }
 
     /** Drops the underlying database table. */
@@ -78,6 +82,16 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
         if (detail != null) {
             stmt.bindString(4, detail);
         }
+ 
+        String password = entity.getPassword();
+        if (password != null) {
+            stmt.bindString(5, password);
+        }
+ 
+        Boolean gender = entity.getGender();
+        if (gender != null) {
+            stmt.bindLong(6, gender ? 1L: 0L);
+        }
     }
 
     /** @inheritdoc */
@@ -93,7 +107,9 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // imgUrl
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // detail
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // detail
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // password
+            cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0 // gender
         );
         return entity;
     }
@@ -105,6 +121,8 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
         entity.setImgUrl(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setDetail(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setPassword(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setGender(cursor.isNull(offset + 5) ? null : cursor.getShort(offset + 5) != 0);
      }
     
     /** @inheritdoc */

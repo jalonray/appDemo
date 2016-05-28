@@ -9,7 +9,7 @@ package com.travel.daily.traveldaily.dao;
  */
 public class BillList {
 
-    private String key;
+    private Long id;
     private String billList;
 
     // KEEP FIELDS - put your custom fields here
@@ -18,21 +18,21 @@ public class BillList {
     public BillList() {
     }
 
-    public BillList(String key) {
-        this.key = key;
+    public BillList(Long id) {
+        this.id = id;
     }
 
-    public BillList(String key, String billList) {
-        this.key = key;
+    public BillList(Long id, String billList) {
+        this.id = id;
         this.billList = billList;
     }
 
-    public String getKey() {
-        return key;
+    public Long getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getBillList() {

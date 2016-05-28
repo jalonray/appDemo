@@ -3,8 +3,8 @@ package com.travel.daily.traveldaily.debug;
 import com.travel.daily.traveldaily.BaseActivity;
 
 /**
- * Created on 16/5/27.
+ * Created on 2016/5/29.
  */
 
-public class DebugActivity extends BaseActivity {
+public class DebugDeleteActivity extends BaseActivity {
 }

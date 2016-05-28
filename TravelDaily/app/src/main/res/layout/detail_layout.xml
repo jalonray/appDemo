@@ -23,21 +23,21 @@
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/backdrop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_banner"
-                app:layout_collapseMode="parallax"/>
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+            <ImageView
+                android:id="@+id/backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_back"
+                app:layout_collapseMode="parallax"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -49,6 +49,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -73,6 +74,21 @@
                 android:layout_height="wrap_content"
                 style="@style/DetailCard">
                 <TextView
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/priceText"
+                    android:text="128元"/>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/DetailCard">
+                <TextView
                     android:id="@+id/detail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -84,12 +100,6 @@
 
 自从隋朝大业六年（610年）开凿江南运河，与北运河相接，沟通南北五大水系[17]，便捷的交通也促进了杭州的经济发展和旅游活动。唐代，西湖面积约有10.8平方公里，比现在湖面面积大近一倍，湖的西部、南部都深至西山脚下，东北面延伸到武林门一带。香客可泛舟至山脚下再步行上山拜佛[18]。由于当时未修水利，西湖时而遭大雨而泛滥，时而因久旱而干涸。"/>
             </android.support.v7.widget.CardView>
-
-            <include layout="@layout/card_detail_image"/>
-
-            <include layout="@layout/card_detail_image"/>
-
-            <include layout="@layout/card_detail_image"/>
 
         </LinearLayout>
 

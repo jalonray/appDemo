@@ -15,6 +15,7 @@ public class BillBean {
     private Float price;
     private Long time;
     private String name;
+    private String bgUrl;
     private String subBill;
 
     // KEEP FIELDS - put your custom fields here
@@ -27,13 +28,14 @@ public class BillBean {
         this.id = id;
     }
 
-    public BillBean(Long id, String imgUrl, String detail, Float price, Long time, String name, String subBill) {
+    public BillBean(Long id, String imgUrl, String detail, Float price, Long time, String name, String bgUrl, String subBill) {
         this.id = id;
         this.imgUrl = imgUrl;
         this.detail = detail;
         this.price = price;
         this.time = time;
         this.name = name;
+        this.bgUrl = bgUrl;
         this.subBill = subBill;
     }
 
@@ -83,6 +85,14 @@ public class BillBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBgUrl() {
+        return bgUrl;
+    }
+
+    public void setBgUrl(String bgUrl) {
+        this.bgUrl = bgUrl;
     }
 
     public String getSubBill() {

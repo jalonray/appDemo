@@ -14,7 +14,7 @@
             android:layout_height="200dp"
             android:padding="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_class_icon" />
+            android:src="@drawable/default_back" />
 
         <TextView
             android:id="@+id/describe"

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="100dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <include layout="@layout/button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/add"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:text="添加内容"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
+    <include layout="@layout/button"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:id="@+id/delete"
+        android:text="删除内容"/>
+
+</LinearLayout>

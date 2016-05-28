@@ -29,7 +29,8 @@ public class BillBeanDao extends AbstractDao<BillBean, Long> {
         public final static Property Price = new Property(3, Float.class, "price", false, "PRICE");
         public final static Property Time = new Property(4, Long.class, "time", false, "TIME");
         public final static Property Name = new Property(5, String.class, "name", false, "NAME");
-        public final static Property SubBill = new Property(6, String.class, "subBill", false, "SUB_BILL");
+        public final static Property BgUrl = new Property(6, String.class, "bgUrl", false, "BG_URL");
+        public final static Property SubBill = new Property(7, String.class, "subBill", false, "SUB_BILL");
     };
 
 
@@ -51,7 +52,8 @@ public class BillBeanDao extends AbstractDao<BillBean, Long> {
                 "\"PRICE\" REAL," + // 3: price
                 "\"TIME\" INTEGER," + // 4: time
                 "\"NAME\" TEXT," + // 5: name
-                "\"SUB_BILL\" TEXT);"); // 6: subBill
+                "\"BG_URL\" TEXT," + // 6: bgUrl
+                "\"SUB_BILL\" TEXT);"); // 7: subBill
     }
 
     /** Drops the underlying database table. */
@@ -95,9 +97,14 @@ public class BillBeanDao extends AbstractDao<BillBean, Long> {
             stmt.bindString(6, name);
         }
  
+        String bgUrl = entity.getBgUrl();
+        if (bgUrl != null) {
+            stmt.bindString(7, bgUrl);
+        }
+ 
         String subBill = entity.getSubBill();
         if (subBill != null) {
-            stmt.bindString(7, subBill);
+            stmt.bindString(8, subBill);
         }
     }
 
@@ -117,7 +124,8 @@ public class BillBeanDao extends AbstractDao<BillBean, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getFloat(offset + 3), // price
             cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // time
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // name
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // subBill
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // bgUrl
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // subBill
         );
         return entity;
     }
@@ -131,7 +139,8 @@ public class BillBeanDao extends AbstractDao<BillBean, Long> {
         entity.setPrice(cursor.isNull(offset + 3) ? null : cursor.getFloat(offset + 3));
         entity.setTime(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
         entity.setName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setSubBill(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setBgUrl(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setSubBill(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
      }
     
     /** @inheritdoc */

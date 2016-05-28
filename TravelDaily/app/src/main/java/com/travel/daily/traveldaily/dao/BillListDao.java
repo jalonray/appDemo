@@ -14,7 +14,7 @@ import com.travel.daily.traveldaily.dao.BillList;
 /** 
  * DAO for table "BILL_LIST".
 */
-public class BillListDao extends AbstractDao<BillList, String> {
+public class BillListDao extends AbstractDao<BillList, Long> {
 
     public static final String TABLENAME = "BILL_LIST";
 
@@ -23,7 +23,7 @@ public class BillListDao extends AbstractDao<BillList, String> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Key = new Property(0, String.class, "key", true, "KEY");
+        public final static Property Id = new Property(0, Long.class, "id", true, "ID");
         public final static Property BillList = new Property(1, String.class, "billList", false, "BILL_LIST");
     };
 
@@ -40,7 +40,7 @@ public class BillListDao extends AbstractDao<BillList, String> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"BILL_LIST\" (" + //
-                "\"KEY\" TEXT PRIMARY KEY NOT NULL ," + // 0: key
+                "\"ID\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"BILL_LIST\" TEXT);"); // 1: billList
     }
 
@@ -55,9 +55,9 @@ public class BillListDao extends AbstractDao<BillList, String> {
     protected void bindValues(SQLiteStatement stmt, BillList entity) {
         stmt.clearBindings();
  
-        String key = entity.getKey();
-        if (key != null) {
-            stmt.bindString(1, key);
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
         }
  
         String billList = entity.getBillList();
@@ -68,15 +68,15 @@ public class BillListDao extends AbstractDao<BillList, String> {
 
     /** @inheritdoc */
     @Override
-    public String readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     /** @inheritdoc */
     @Override
     public BillList readEntity(Cursor cursor, int offset) {
         BillList entity = new BillList( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // key
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // billList
         );
         return entity;
@@ -85,21 +85,22 @@ public class BillListDao extends AbstractDao<BillList, String> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, BillList entity, int offset) {
-        entity.setKey(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setBillList(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
      }
     
     /** @inheritdoc */
     @Override
-    protected String updateKeyAfterInsert(BillList entity, long rowId) {
-        return entity.getKey();
+    protected Long updateKeyAfterInsert(BillList entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
     
     /** @inheritdoc */
     @Override
-    public String getKey(BillList entity) {
+    public Long getKey(BillList entity) {
         if(entity != null) {
-            return entity.getKey();
+            return entity.getId();
         } else {
             return null;
         }

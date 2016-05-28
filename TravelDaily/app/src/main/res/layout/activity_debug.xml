@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DetailCard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/delicacyImg0"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/default_back"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:id="@+id/delicacyImg1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/default_back"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:id="@+id/delicacyImg2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/default_back"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:id="@+id/delicacyImg3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/default_back"
+                    android:scaleType="centerCrop"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="景色名称" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/sceneryName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入名称" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="景色描述" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/sceneryDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入描述" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="景色价格" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/sceneryPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入价格" />
+
+                    <TextView
+                        android:id="@+id/addScenery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/btn_background"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:text="添加景色"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DetailCard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/hotelImg0"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/default_back"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:id="@+id/hotelImg1"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/default_back"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:id="@+id/hotelImg2"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/default_back"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:id="@+id/hotelImg3"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/default_back"
+                        android:scaleType="centerCrop"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="酒店名称" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/hotelName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入名称" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="酒店描述" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/hotelDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入描述" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="酒店价格" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/hotelPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入价格" />
+
+                    <TextView
+                        android:id="@+id/addHotel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/btn_background"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:text="添加酒店"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DetailCard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/sceneryImg0"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/default_back"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:id="@+id/sceneryImg1"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/default_back"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:id="@+id/sceneryImg2"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/default_back"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:id="@+id/sceneryImg3"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/default_back"
+                        android:scaleType="centerCrop"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="美食名称" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/delicacyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入名称" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="美食描述" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/delicacyDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入描述" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="美食价格" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/delicacyPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入描述" />
+
+                    <TextView
+                        android:id="@+id/addDelicacy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/btn_background"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:text="添加美食"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</ScrollView>

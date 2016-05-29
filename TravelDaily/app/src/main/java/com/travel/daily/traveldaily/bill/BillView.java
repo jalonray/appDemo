@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.travel.daily.traveldaily.ToolUtils;
 import com.travel.daily.traveldaily.R;
-import com.travel.daily.traveldaily.dao.BillBean;
+import com.travel.daily.traveldaily.database.dao.BillBean;
 import com.travel.daily.traveldaily.mvp.views.IView;
 
 /**
@@ -52,7 +52,7 @@ public class BillView extends IView<BillBean> {
         holder.name.setText(data.getName());
         holder.price.setText(getContext().getString(R.string.show_price, String.valueOf(data.getPrice())));
         holder.detail.setText(data.getDetail());
-        holder.time.setText("2016年5月1日");
+        holder.time.setText(ToolUtils.getTimeString(data.getTime()));
         holder.container.setOnClickListener(this);
     }
 

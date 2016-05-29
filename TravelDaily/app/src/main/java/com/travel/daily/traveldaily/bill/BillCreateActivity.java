@@ -1,6 +1,7 @@
 package com.travel.daily.traveldaily.bill;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -14,15 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.travel.daily.traveldaily.AccountManager;
+import com.travel.daily.traveldaily.account.AccountManager;
 import com.travel.daily.traveldaily.BaseActivity;
-import com.travel.daily.traveldaily.DataHelper;
+import com.travel.daily.traveldaily.database.DataHelper;
 import com.travel.daily.traveldaily.R;
 import com.travel.daily.traveldaily.ToolUtils;
-import com.travel.daily.traveldaily.dao.BillBean;
-import com.travel.daily.traveldaily.dao.DelicacyBean;
-import com.travel.daily.traveldaily.dao.HotelBean;
-import com.travel.daily.traveldaily.dao.SceneryBean;
+import com.travel.daily.traveldaily.account.LoginActivity;
+import com.travel.daily.traveldaily.database.dao.AccountBean;
+import com.travel.daily.traveldaily.database.dao.BillBean;
+import com.travel.daily.traveldaily.database.dao.DelicacyBean;
+import com.travel.daily.traveldaily.database.dao.HotelBean;
+import com.travel.daily.traveldaily.database.dao.SceneryBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +105,7 @@ public class BillCreateActivity extends BaseActivity implements View.OnClickList
             case TYPE_HOTEL:
                 imgUrl = hotelBean.getImgUrl();
                 title = hotelBean.getTitle();
-                price = sceneryBean.getPrice();
+                price = hotelBean.getPrice();
                 break;
             case TYPE_DELICACY:
                 imgUrl = delicacyBean.getImgUrl();
@@ -115,16 +118,36 @@ public class BillCreateActivity extends BaseActivity implements View.OnClickList
         backdrop.setImageBitmap(ToolUtils.getBitmapFromUrl(this, imgUrl));
         toolbar.setTitle(title);
         this.price.setText(getString(R.string.show_price, String.valueOf(price)));
+        img.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ToolUtils.SELECT_PICTURE) {
+            img.setImageBitmap(ToolUtils.getBitmapFromIntent(this, data));
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.img:
+                ToolUtils.getPicFromGallery(this);
+                break;
             case R.id.add:
                 if (TextUtils.isEmpty(name.getText())) {
                     Toast.makeText(this, "请输入姓名~", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                final AccountBean accountBean = AccountManager.getInstance(BillCreateActivity.this).getBean();
+                if (accountBean == null) {
+                    Toast.makeText(BillCreateActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(BillCreateActivity.this, LoginActivity.class));
+                    return;
+                }
+
                 new AlertDialog.Builder(this).setTitle("提示")
                         .setMessage("确认添加新账单吗？")
                         .setNegativeButton("取消", null)
@@ -151,22 +174,23 @@ public class BillCreateActivity extends BaseActivity implements View.OnClickList
                                         return;
                                 }
                                 bean = new BillBean();
-                                bean.setImgUrl(ToolUtils.saveBitmap(BillCreateActivity.this, img.getDrawingCache()));
-                                bean.setTime(SystemClock.currentThreadTimeMillis());
+                                bean.setImgUrl(ToolUtils.saveBitmap(BillCreateActivity.this, img));
+                                bean.setTime(System.currentTimeMillis());
                                 bean.setPrice(price);
                                 bean.setDetail(detailStr);
                                 bean.setName(name.getText().toString());
                                 bean.setBgUrl(imgUrl);
-                                bean.setId(SystemClock.currentThreadTimeMillis());
+                                bean.setId(System.currentTimeMillis());
                                 DataHelper.insertBill(BillCreateActivity.this, bean);
 
-                                long id = AccountManager.getInstance(BillCreateActivity.this).getBean().getId();
+                                long id = accountBean.getId();
                                 List<BillBean> list = DataHelper.loadBillList(BillCreateActivity.this, id);
                                 if (list == null) {
                                     list = new ArrayList<>();
                                 }
                                 list.add(bean);
                                 DataHelper.insertBillList(BillCreateActivity.this, list, id);
+
                                 Toast.makeText(BillCreateActivity.this, "账单已添加~", Toast.LENGTH_SHORT).show();
                                 onBackPressed();
                             }

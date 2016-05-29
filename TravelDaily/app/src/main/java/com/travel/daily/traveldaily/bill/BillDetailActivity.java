@@ -1,12 +1,16 @@
 package com.travel.daily.traveldaily.bill;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -17,12 +21,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.travel.daily.traveldaily.account.AccountManager;
 import com.travel.daily.traveldaily.BaseActivity;
-import com.travel.daily.traveldaily.DataHelper;
+import com.travel.daily.traveldaily.database.DataHelper;
 import com.travel.daily.traveldaily.ToolUtils;
 import com.travel.daily.traveldaily.R;
-import com.travel.daily.traveldaily.dao.BillBean;
+import com.travel.daily.traveldaily.account.LoginActivity;
+import com.travel.daily.traveldaily.database.dao.AccountBean;
+import com.travel.daily.traveldaily.database.dao.BillBean;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,6 +65,7 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
         price = (TextView) findViewById(R.id.price);
         time = (TextView) findViewById(R.id.time);
         name = (TextView) findViewById(R.id.name);
+        addBill.setOnClickListener(this);
         if (getIntent() != null) {
             billId = getIntent().getLongExtra("id", -1);
         }
@@ -70,6 +80,7 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
             price.setText(String.valueOf(data.getPrice()));
             time.setText(ToolUtils.getTimeString(data.getTime()));
             name.setText(data.getName());
+            detail.setText(data.getDetail());
             showSubBills();
         }
     }
@@ -83,12 +94,37 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    public void addSubBill(BillBean bean) {
-        CardView card = (CardView) LayoutInflater.from(this).inflate(R.layout.card_bill_detail, container, false);
+    public void addSubBill(final BillBean bean) {
+        final CardView card = (CardView) LayoutInflater.from(this).inflate(R.layout.card_bill_detail, container, false);
         ((ImageView) card.findViewById(R.id.img)).setImageBitmap(ToolUtils.getBitmapFromUrl(this, bean.getImgUrl()));
         ((TextView) card.findViewById(R.id.price)).setText(String.valueOf(bean.getPrice()));
         ((TextView) card.findViewById(R.id.name)).setText(bean.getName());
         ((TextView) card.findViewById(R.id.time)).setText(ToolUtils.getTimeString(bean.getTime()));
+        card.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View v) {
+                new AlertDialog.Builder(BillDetailActivity.this).setTitle("提示")
+                        .setMessage("删除此条目")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                container.removeView(v);
+
+                                List<BillBean> list = DataHelper.decodeBillList(data.getSubBill());
+                                for (BillBean subBean : list) {
+                                    if (subBean.getId().equals(bean.getId())) {
+                                        list.remove(subBean);
+                                        break;
+                                    }
+                                }
+                                data.setSubBill(DataHelper.encodeBillList(list));
+                                DataHelper.updateBill(BillDetailActivity.this, data);
+                            }
+                        }).show();
+                return true;
+            }
+        });
         container.addView(card);
     }
 
@@ -110,6 +146,7 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
         ImageView showImg;
         TextView addBill;
         long billId;
+        BillBean bean;
         float needPrice;
 
         public static BillAddDialogFragment newInstance(long id) {
@@ -126,6 +163,22 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
             super.onCreate(savedInstanceState);
             if (getArguments() != null) {
                 billId = getArguments().getLong("id", -1);
+                bean = DataHelper.loadBill(getContext(), billId);
+                List<BillBean> list = DataHelper.decodeBillList(bean.getSubBill());
+                if (list == null) {
+                    needPrice = bean.getPrice();
+                } else {
+                    needPrice = bean.getPrice();
+                    for (BillBean billBean : list) {
+                        needPrice -= billBean.getPrice();
+                    }
+                    BigDecimal b = new BigDecimal(needPrice);
+                    needPrice = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+                    if (needPrice == 0) {
+                        Toast.makeText(getContext(), "已经付清", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    }
+                }
             }
         }
 
@@ -160,6 +213,12 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add:
+                    final AccountBean accountBean = AccountManager.getInstance(getContext()).getBean();
+                    if (accountBean == null) {
+                        Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        return;
+                    }
                     if (billId == -1) {
                         Toast.makeText(getContext(), "账单无效", Toast.LENGTH_SHORT).show();
                         dismiss();
@@ -178,15 +237,29 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
 
                     // 添加新字账单到数据库
                     BillBean billBean = new BillBean();
-                    billBean.setImgUrl(ToolUtils.saveBitmap(getContext(), showImg.getDrawingCache()));
+                    billBean.setId(System.currentTimeMillis());
+                    billBean.setImgUrl(ToolUtils.saveBitmap(getContext(), showImg));
                     billBean.setName(inputName.getText().toString());
-                    billBean.setTime(SystemClock.currentThreadTimeMillis());
+                    billBean.setTime(System.currentTimeMillis());
+                    billBean.setPrice(Float.parseFloat(inputPrice.getText().toString()));
 
                     BillBean currentBean = DataHelper.loadBill(getContext(), billId);
                     List<BillBean> list = DataHelper.decodeBillList(currentBean.getSubBill());
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    }
                     list.add(billBean);
                     currentBean.setSubBill(DataHelper.encodeBillList(list));
-                    DataHelper.insertBill(getContext(), currentBean);
+                    DataHelper.updateBill(getContext(), currentBean);
+
+                    List<BillBean> showList = DataHelper.loadBillList(getContext(), accountBean.getId());
+                    for (BillBean showBean : showList) {
+                        if (showBean.getId() == billId) {
+                            showBean.setSubBill(DataHelper.encodeBillList(list));
+                            break;
+                        }
+                    }
+                    DataHelper.insertBillList(getContext(), showList, accountBean.getId());
 
                     // 界面显示新子账单
                     ((BillDetailActivity) getActivity()).addSubBill(billBean);

@@ -11,13 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.travel.daily.traveldaily.AccountManager;
 import com.travel.daily.traveldaily.BaseActivity;
-import com.travel.daily.traveldaily.DataHelper;
+import com.travel.daily.traveldaily.database.DataHelper;
 import com.travel.daily.traveldaily.MainActivity;
 import com.travel.daily.traveldaily.R;
 import com.travel.daily.traveldaily.ToolUtils;
-import com.travel.daily.traveldaily.dao.AccountBean;
+import com.travel.daily.traveldaily.database.dao.AccountBean;
 
 /**
  * Created on 2016/5/29.
@@ -76,7 +75,7 @@ public class SignActivity extends BaseActivity implements View.OnClickListener{
                     Toast.makeText(this, "输入密码为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String pwdStr1 = password0.getText().toString();
+                String pwdStr1 = password1.getText().toString();
                 if (TextUtils.isEmpty(pwdStr1)) {
                     Toast.makeText(this, "确认密码为空", Toast.LENGTH_SHORT).show();
                     return;
@@ -87,12 +86,15 @@ public class SignActivity extends BaseActivity implements View.OnClickListener{
                 }
 
                 AccountBean bean = new AccountBean();
-                bean.setId(SystemClock.currentThreadTimeMillis());
+                bean.setId(System.currentTimeMillis());
                 bean.setName(nameStr);
                 bean.setPassword(pwdStr0);
-                bean.setImgUrl(ToolUtils.saveBitmap(this, img.getDrawingCache()));
+                bean.setImgUrl(ToolUtils.saveBitmap(this, img));
                 DataHelper.insertAccount(this, bean);
                 AccountManager.getInstance(this).setBean(bean);
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
             default:
                 break;

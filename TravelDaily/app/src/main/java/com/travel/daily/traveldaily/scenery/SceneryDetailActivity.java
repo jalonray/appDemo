@@ -11,17 +11,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.travel.daily.traveldaily.BaseActivity;
-import com.travel.daily.traveldaily.DataHelper;
+import com.travel.daily.traveldaily.database.DataHelper;
 import com.travel.daily.traveldaily.R;
 import com.travel.daily.traveldaily.ToolUtils;
 import com.travel.daily.traveldaily.bill.BillCreateActivity;
-import com.travel.daily.traveldaily.dao.DetailImage;
-import com.travel.daily.traveldaily.dao.SceneryBean;
-
-import org.w3c.dom.Text;
+import com.travel.daily.traveldaily.database.dao.DetailImage;
+import com.travel.daily.traveldaily.database.dao.SceneryBean;
 
 /**
  * Created on 16/5/19.
@@ -42,6 +39,7 @@ public class SceneryDetailActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_layout);
+        id = getIntent().getLongExtra("id", -1);
         backdrop = (ImageView) findViewById(R.id.backdrop);
         toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         title = (TextView) findViewById(R.id.title);
@@ -67,7 +65,7 @@ public class SceneryDetailActivity extends BaseActivity implements View.OnClickL
         title.setText(bean.getTitle());
         toolbar.setTitle(bean.getTitle());
         detail.setText(bean.getDetail());
-        price.setText(String.valueOf(bean.getPrice()));
+        price.setText(getString(R.string.show_price, String.valueOf(bean.getPrice())));
         showImages();
     }
 
@@ -97,6 +95,7 @@ public class SceneryDetailActivity extends BaseActivity implements View.OnClickL
             CardView view = (CardView) LayoutInflater.from(this).inflate(R.layout.card_detail_image, container, false);
             ((ImageView) view.findViewById(R.id.img)).setImageBitmap(ToolUtils.getBitmapFromUrl(this, imgUrl));
             ((TextView) view.findViewById(R.id.describe)).setText(bean.getTitle());
+            container.addView(view);
         }
     }
 
@@ -109,6 +108,7 @@ public class SceneryDetailActivity extends BaseActivity implements View.OnClickL
                 }
                 Intent intent = new Intent(this, BillCreateActivity.class);
                 intent.putExtra("id", id);
+                intent.putExtra("type", BillCreateActivity.TYPE_SCENERY);
                 startActivity(intent);
                 break;
             default:

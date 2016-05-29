@@ -3,7 +3,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class TravelDaoGenerator {
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(1, "com.travel.daily.traveldaily.dao");
+        Schema schema = new Schema(1, "com.travel.daily.traveldaily.database.dao");
         schema.enableKeepSectionsByDefault();
         createScenery(schema);
         createHotel(schema);

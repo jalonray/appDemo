@@ -1,5 +1,7 @@
 package com.travel.daily.traveldaily.debug;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -11,13 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.travel.daily.traveldaily.BaseActivity;
-import com.travel.daily.traveldaily.DataHelper;
+import com.travel.daily.traveldaily.database.DataHelper;
 import com.travel.daily.traveldaily.R;
 import com.travel.daily.traveldaily.ToolUtils;
-import com.travel.daily.traveldaily.dao.DelicacyBean;
-import com.travel.daily.traveldaily.dao.DetailImage;
-import com.travel.daily.traveldaily.dao.HotelBean;
-import com.travel.daily.traveldaily.dao.SceneryBean;
+import com.travel.daily.traveldaily.database.dao.DelicacyBean;
+import com.travel.daily.traveldaily.database.dao.DetailImage;
+import com.travel.daily.traveldaily.database.dao.HotelBean;
+import com.travel.daily.traveldaily.database.dao.SceneryBean;
 
 /**
  * Created on 16/5/27.
@@ -71,6 +73,8 @@ public class DebugAddActivity extends BaseActivity implements View.OnClickListen
 
     int type = -1;
 
+    ProgressDialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +123,15 @@ public class DebugAddActivity extends BaseActivity implements View.OnClickListen
         delicacyImg2.setOnClickListener(this);
         delicacyImg3.setOnClickListener(this);
         addDelicacy.setOnClickListener(this);
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("添加到数据库中...");
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                Toast.makeText(DebugAddActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -174,61 +187,67 @@ public class DebugAddActivity extends BaseActivity implements View.OnClickListen
             case R.id.addScenery:
                 float sceneryPrice = Float.parseFloat(this.sceneryPrice.getText().toString());
                 if (checkPrice(sceneryPrice)) {
-                    long sceneryId = SystemClock.currentThreadTimeMillis();
+                    dialog.show();
+                    long sceneryId = System.currentTimeMillis();
                     SceneryBean sceneryBean = new SceneryBean();
                     sceneryBean.setId(sceneryId);
                     sceneryBean.setTitle(sceneryName.getText().toString());
                     sceneryBean.setDetail(sceneryDetail.getText().toString());
                     sceneryBean.setPrice(sceneryPrice);
-                    sceneryBean.setImgUrl(ToolUtils.saveBitmap(this, sceneryImg0.getDrawingCache()));
+                    sceneryBean.setImgUrl(ToolUtils.saveBitmap(this, sceneryImg0));
                     DataHelper.insertScenery(this, sceneryBean);
 
                     DetailImage sceneryImage = new DetailImage();
                     sceneryImage.setId(sceneryId);
-                    sceneryImage.setPic0(ToolUtils.saveBitmap(this, sceneryImg1.getDrawingCache()));
-                    sceneryImage.setPic0(ToolUtils.saveBitmap(this, sceneryImg2.getDrawingCache()));
-                    sceneryImage.setPic0(ToolUtils.saveBitmap(this, sceneryImg3.getDrawingCache()));
+                    sceneryImage.setPic0(ToolUtils.saveBitmap(this, sceneryImg1));
+                    sceneryImage.setPic1(ToolUtils.saveBitmap(this, sceneryImg2));
+                    sceneryImage.setPic2(ToolUtils.saveBitmap(this, sceneryImg3));
                     DataHelper.insertDetailImage(this, sceneryImage);
+                    dialog.dismiss();
                 }
                 break;
             case R.id.addHotel:
                 float hotelPrice = Float.parseFloat(this.hotelPrice.getText().toString());
                 if (checkPrice(hotelPrice)) {
-                    long hotelId = SystemClock.currentThreadTimeMillis();
+                    dialog.show();
+                    long hotelId = System.currentTimeMillis();
                     HotelBean hotelBean = new HotelBean();
                     hotelBean.setId(hotelId);
                     hotelBean.setTitle(hotelName.getText().toString());
                     hotelBean.setDetail(hotelDetail.getText().toString());
                     hotelBean.setPrice(hotelPrice);
-                    hotelBean.setImgUrl(ToolUtils.saveBitmap(this, hotelImg0.getDrawingCache()));
+                    hotelBean.setImgUrl(ToolUtils.saveBitmap(this, hotelImg0));
                     DataHelper.insertHotel(this, hotelBean);
 
                     DetailImage hotelImage = new DetailImage();
                     hotelImage.setId(hotelId);
-                    hotelImage.setPic0(ToolUtils.saveBitmap(this, hotelImg1.getDrawingCache()));
-                    hotelImage.setPic0(ToolUtils.saveBitmap(this, hotelImg2.getDrawingCache()));
-                    hotelImage.setPic0(ToolUtils.saveBitmap(this, hotelImg3.getDrawingCache()));
+                    hotelImage.setPic0(ToolUtils.saveBitmap(this, hotelImg1));
+                    hotelImage.setPic1(ToolUtils.saveBitmap(this, hotelImg2));
+                    hotelImage.setPic2(ToolUtils.saveBitmap(this, hotelImg3));
                     DataHelper.insertDetailImage(this, hotelImage);
+                    dialog.dismiss();
                 }
                 break;
             case R.id.addDelicacy:
                 float delicacyPrice = Float.parseFloat(this.delicacyPrice.getText().toString());
                 if (checkPrice(delicacyPrice)) {
-                    long delicacyId = SystemClock.currentThreadTimeMillis();
+                    dialog.show();
+                    long delicacyId = System.currentTimeMillis();
                     DelicacyBean delicacyBean = new DelicacyBean();
                     delicacyBean.setId(delicacyId);
                     delicacyBean.setTitle(delicacyName.getText().toString());
                     delicacyBean.setDetail(delicacyDetail.getText().toString());
                     delicacyBean.setPrice(delicacyPrice);
-                    delicacyBean.setImgUrl(ToolUtils.saveBitmap(this, delicacyImg0.getDrawingCache()));
+                    delicacyBean.setImgUrl(ToolUtils.saveBitmap(this, delicacyImg0));
                     DataHelper.insertDelicacy(this, delicacyBean);
 
                     DetailImage delicacyImage = new DetailImage();
                     delicacyImage.setId(delicacyId);
-                    delicacyImage.setPic0(ToolUtils.saveBitmap(this, delicacyImg1.getDrawingCache()));
-                    delicacyImage.setPic0(ToolUtils.saveBitmap(this, delicacyImg2.getDrawingCache()));
-                    delicacyImage.setPic0(ToolUtils.saveBitmap(this, delicacyImg3.getDrawingCache()));
+                    delicacyImage.setPic0(ToolUtils.saveBitmap(this, delicacyImg1));
+                    delicacyImage.setPic1(ToolUtils.saveBitmap(this, delicacyImg2));
+                    delicacyImage.setPic2(ToolUtils.saveBitmap(this, delicacyImg3));
                     DataHelper.insertDetailImage(this, delicacyImage);
+                    dialog.dismiss();
                 }
                 break;
             case R.id.sceneryImg0:

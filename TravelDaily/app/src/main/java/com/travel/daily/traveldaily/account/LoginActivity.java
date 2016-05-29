@@ -9,11 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.travel.daily.traveldaily.AccountManager;
 import com.travel.daily.traveldaily.BaseActivity;
-import com.travel.daily.traveldaily.DataHelper;
+import com.travel.daily.traveldaily.database.DataHelper;
 import com.travel.daily.traveldaily.R;
-import com.travel.daily.traveldaily.dao.AccountBean;
+import com.travel.daily.traveldaily.database.dao.AccountBean;
 
 import java.util.List;
 
@@ -66,6 +65,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                         account = bean;
                         AccountManager.getInstance(this).setBean(account);
                         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+                        onBackPressed();
                         return;
                     }
                 }

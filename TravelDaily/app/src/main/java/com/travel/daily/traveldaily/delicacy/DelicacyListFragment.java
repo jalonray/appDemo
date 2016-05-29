@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.travel.daily.traveldaily.BaseAdapter;
 import com.travel.daily.traveldaily.BaseListFragment;
-import com.travel.daily.traveldaily.DBHelper;
-import com.travel.daily.traveldaily.dao.DelicacyBean;
+import com.travel.daily.traveldaily.database.DBHelper;
+import com.travel.daily.traveldaily.database.dao.DelicacyBean;
 import com.travel.daily.traveldaily.mvp.presenters.BasePresenter;
 
 import java.util.List;

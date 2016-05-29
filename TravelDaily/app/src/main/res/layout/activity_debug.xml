@@ -94,6 +94,7 @@
                         android:id="@+id/sceneryPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
                         android:hint="输入价格" />
 
                     <TextView
@@ -201,6 +202,7 @@
                         android:id="@+id/hotelPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
                         android:hint="输入价格" />
 
                     <TextView
@@ -308,7 +310,8 @@
                         android:id="@+id/delicacyPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="输入描述" />
+                        android:inputType="numberDecimal"
+                        android:hint="输入价格" />
 
                     <TextView
                         android:id="@+id/addDelicacy"

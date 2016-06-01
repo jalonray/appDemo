@@ -57,7 +57,9 @@ public class ToolUtils {
     }
 
     static public void getPicFromGallery(Activity activity) {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
 
         activity.startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
     }

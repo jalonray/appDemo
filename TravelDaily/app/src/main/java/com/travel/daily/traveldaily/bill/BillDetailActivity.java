@@ -190,6 +190,7 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
             inputName = (TextInputEditText) view.findViewById(R.id.name);
             showPrice = (TextView) view.findViewById(R.id.needPrice);
             showImg = (ImageView) view.findViewById(R.id.img);
+            showImg.setOnClickListener(this);
             addBill = (TextView) view.findViewById(R.id.add);
             addBill.setOnClickListener(this);
             return view;

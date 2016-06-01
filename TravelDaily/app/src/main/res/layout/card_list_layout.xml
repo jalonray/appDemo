@@ -6,15 +6,6 @@
     <RelativeLayout
         android:id="@+id/container"
         style="@style/listCard.Container">
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_centerVertical="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_menu_camera"/>
 
         <TextView
             android:id="@+id/title"
@@ -68,6 +59,17 @@
             android:textColor="@color/priceText"
             android:textSize="15sp"
             tools:text="15元"/>
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_menu_camera"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

@@ -1,5 +1,6 @@
 package com.travel.daily.traveldaily;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -12,9 +13,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.travel.daily.traveldaily.account.AccountManager;
+import com.travel.daily.traveldaily.account.LoginActivity;
 import com.travel.daily.traveldaily.bill.BillListFragment;
+import com.travel.daily.traveldaily.database.dao.AccountBean;
+import com.travel.daily.traveldaily.debug.DebugMainActivity;
 import com.travel.daily.traveldaily.delicacy.DelicacyListFragment;
 import com.travel.daily.traveldaily.hotel.HotelListFragment;
 import com.travel.daily.traveldaily.scenery.SceneryListFragment;
@@ -27,6 +36,10 @@ public class MainActivity extends AppCompatActivity
 
     TabLayout mTabLayout;
     ViewPager mViewPager;
+    AccountBean account;
+    ImageView img;
+    TextView name;
+    TextView detail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +56,61 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        img = (ImageView) view.findViewById(R.id.imageView);
+        name = (TextView) view.findViewById(R.id.name);
+        detail = (TextView) view.findViewById(R.id.textView);
+
+        account = AccountManager.getInstance(this).getBean();
 
         setUpViewPager();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        account = AccountManager.getInstance(this).getBean();
+        updateAccount();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                if (mViewPager != null) {
+                    ((FragmentAdapter)mViewPager.getAdapter()).refresh();
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    private void updateAccount() {
+        account = AccountManager.getInstance(this).getBean();
+        if (account == null) {
+            img.setImageResource(R.drawable.guest);
+            name.setText("没有登录");
+            detail.setText("点击头像登录");
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+            });
+            return;
+        }
+        img.setImageBitmap(ToolUtils.getBitmapFromUrl(this, account.getImgUrl()));
+        name.setText(account.getName());
+        detail.setText(account.getDetail());
+        img.setOnClickListener(null);
     }
 
     @Override
@@ -63,18 +129,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_manage) {
+            startActivity(new Intent(this, DebugMainActivity.class));
+        } else if (id == R.id.logout) {
+            AccountManager.getInstance(this).clear();
+            updateAccount();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -129,6 +188,12 @@ public class MainActivity extends AppCompatActivity
         @Override
         public CharSequence getPageTitle(int position) {
             return mTitles.get(position);
+        }
+
+        public void refresh() {
+            for (Fragment fragment : mFragments) {
+                ((BaseListFragment)fragment).refresh();
+            }
         }
     }
 }

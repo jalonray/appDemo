@@ -3,7 +3,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class TravelDaoGenerator {
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(1, "com.travel.daily.traveldaily.dao");
+        Schema schema = new Schema(1, "com.travel.daily.traveldaily.database.dao");
         schema.enableKeepSectionsByDefault();
         createScenery(schema);
         createHotel(schema);
@@ -12,6 +12,7 @@ public class TravelDaoGenerator {
         createAccount(schema);
         createImage(schema);
         createBillList(schema);
+        createDetailImage(schema);
         new de.greenrobot.daogenerator.DaoGenerator().generateAll(schema, "app/src/main/java");
     }
 
@@ -50,12 +51,13 @@ public class TravelDaoGenerator {
         entity.addFloatProperty("price");
         entity.addLongProperty("time");
         entity.addStringProperty("name");
+        entity.addStringProperty("bgUrl");
         entity.addStringProperty("subBill");
     }
 
     private static void createBillList(Schema schema) {
         Entity entity = schema.addEntity("BillList");
-        entity.addStringProperty("key").primaryKey();
+        entity.addLongProperty("id").primaryKey();
         entity.addStringProperty("billList");
     }
 
@@ -65,11 +67,21 @@ public class TravelDaoGenerator {
         entity.addStringProperty("imgUrl");
         entity.addStringProperty("name");
         entity.addStringProperty("detail");
+        entity.addStringProperty("password");
+        entity.addBooleanProperty("gender");
     }
 
     private static void createImage(Schema schema) {
         Entity entity = schema.addEntity("ImageBean");
         entity.addStringProperty("imgUrl").primaryKey();
         entity.addByteArrayProperty("pic");
+    }
+
+    private static void createDetailImage(Schema schema) {
+        Entity entity = schema.addEntity("DetailImage");
+        entity.addLongProperty("id").primaryKey();
+        entity.addStringProperty("pic0");
+        entity.addStringProperty("pic1");
+        entity.addStringProperty("pic2");
     }
 }

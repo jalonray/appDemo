@@ -59,8 +59,7 @@ public class DebugDeleteHotelFragment extends BaseListFragment {
                     DataHelper.removeImage(getContext(), detail.getPic2());
 
                     Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
-                    getAdapter().notifyDataSetChanged();
-                    getAdapter().notifyItemRangeChanged(0, getAdapter().getItemCount());
+                    refresh();
                 }
             });
             return view;

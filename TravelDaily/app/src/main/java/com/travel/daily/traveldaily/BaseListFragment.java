@@ -18,6 +18,12 @@ public abstract class BaseListFragment extends BaseFragment {
     RecyclerView rcView;
     TextView fresh;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,7 +41,6 @@ public abstract class BaseListFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        rcView.setAdapter(getAdapter());
         rcView.setLayoutManager(new LinearLayoutManager(getContext()));
         refresh();
         super.onViewCreated(view, savedInstanceState);
@@ -44,11 +49,10 @@ public abstract class BaseListFragment extends BaseFragment {
     protected abstract RecyclerView.Adapter getAdapter();
 
     public void refresh() {
-        if (getAdapter() == null || rcView == null ||fresh == null) {
+        if (rcView == null) {
             return;
         }
-        getAdapter().notifyDataSetChanged();
-        getAdapter().notifyItemRangeChanged(0, getAdapter().getItemCount());
+        rcView.setAdapter(getAdapter());
         if (getAdapter().getItemCount() == 0) {
             fresh.setVisibility(View.VISIBLE);
             rcView.setVisibility(View.GONE);

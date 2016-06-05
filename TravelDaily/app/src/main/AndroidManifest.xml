@@ -50,6 +50,9 @@
         <activity android:name=".debug.DebugMainActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".search.SearchActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

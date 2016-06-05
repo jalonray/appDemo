@@ -27,6 +27,7 @@ import com.travel.daily.traveldaily.debug.DebugMainActivity;
 import com.travel.daily.traveldaily.delicacy.DelicacyListFragment;
 import com.travel.daily.traveldaily.hotel.HotelListFragment;
 import com.travel.daily.traveldaily.scenery.SceneryListFragment;
+import com.travel.daily.traveldaily.search.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity
                     ((FragmentAdapter)mViewPager.getAdapter()).refresh();
                 }
                 break;
+            case R.id.action_search:
+                startActivity(new Intent(this, SearchActivity.class));
             default:
                 break;
         }

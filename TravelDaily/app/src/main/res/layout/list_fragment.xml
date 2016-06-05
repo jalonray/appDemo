@@ -6,7 +6,7 @@
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="点击刷新"
+        android:text="数据为空\nor\n点击刷新"
         android:textSize="30sp"
         android:textColor="@color/minorText"
         android:gravity="center"
